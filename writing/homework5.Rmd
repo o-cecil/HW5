@@ -59,6 +59,8 @@ det_counties <- det_counties %>%
 det_metro <- places(state = "MI") %>% 
   filter(NAME == "Detroit")
 
+roads <- primary_roads()
+
 det_tract <- tracts(state = "MI", county = "Wayne")
 
 det_blocks <- blocks(state = "MI", county = "Wayne", class = "sf")
@@ -67,6 +69,7 @@ det_blocks <- blocks(state = "MI", county = "Wayne", class = "sf")
 ggplot() +
   geom_sf(data = det_tract, color = "grey") +
   geom_sf(data = det_metro, color = "black", alpha = 0.1) + # alpha transparency
+  geom_sf(data = roads, color = "red") +
   geom_sf(data = detroit_data) +
   xlim(c(-83.3, -82.9)) +
   ylim(c(42.25, 42.45))
