@@ -33,7 +33,6 @@ detroit_raw <- homicide_raw %>%
   filter(city_name == "Detroit, MI")
 
 
-
 ```
 
 
@@ -58,11 +57,13 @@ det_tract <- tracts(state = "MI", county = "Wayne")
 
 det_blocks <- blocks(state = "MI", county = "Wayne", class = "sf")
 
-# plot layers
+# plot layers on example map to determine display
 ggplot() +
-  geom_sf(data = det_counties, color = "lightgrey") +
   geom_sf(data = det_tract, color = "grey") +
-  geom_sf(data = det_metro, color = "black", alpha = 0.1)
+  geom_sf(data = det_metro, color = "black", alpha = 0.1) + # alpha transparency
+  xlim(c(-83.3, -82.9)) +
+  ylim(c(42.25, 42.45))
+
 ```
 
 
