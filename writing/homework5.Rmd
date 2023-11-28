@@ -27,8 +27,15 @@ library(tigris)
 homicide_raw <- read_csv("../data/homicide-data.csv") %>% 
   mutate(city_name = paste(city, state, sep = ", "))
 
+# filter to Detroit
 detroit_raw <- homicide_raw %>% 
   filter(city_name == "Detroit, MI")
+
+# mapping data - select counties containing Detroit metro
+det_counties <- county_subdivisions(state = "MI", 
+                                   county = c("Lapeer", "Livingston", "Macomb",
+                                   "Oakland", "St. Clair", "Wayne"), 
+                                   cb = FALSE, class = "sf")
 
 ```
 
