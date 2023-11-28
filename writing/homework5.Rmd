@@ -22,7 +22,8 @@ library(tigris)
 
 ## Reading in data, basic cleaning
 
-```{r}
+```{r homicide data }
+
 # read in csv file and add city, state column
 homicide_raw <- read_csv("../data/homicide-data.csv") %>% 
   mutate(city_name = paste(city, state, sep = ", "))
@@ -31,15 +32,38 @@ homicide_raw <- read_csv("../data/homicide-data.csv") %>%
 detroit_raw <- homicide_raw %>% 
   filter(city_name == "Detroit, MI")
 
-# mapping data - select counties containing Detroit metro
-det_counties <- county_subdivisions(state = "MI", 
-                                   county = c("Lapeer", "Livingston", "Macomb",
-                                   "Oakland", "St. Clair", "Wayne"), 
-                                   cb = FALSE, class = "sf")
+
 
 ```
 
 
+```{r mapping data}
+
+# mapping data - select counties containing Detroit metro
+det_counties <- county_subdivisions(state = "MI", 
+                                   county = "Wayne", 
+                                   cb = FALSE, class = "sf")
+
+# add full fips column and update to county names rather than fips codes
+det_counties <- det_counties %>% 
+  mutate(fips = paste0(STATEFP, COUNTYFP)) %>% 
+  mutate(COUNTYFP = case_when(
+    COUNTYFP == "163" ~ "Wayne County"
+  ))
+
+det_metro <- places(state = "MI") %>% 
+  filter(NAME == "Detroit")
+
+det_tract <- tracts(state = "MI", county = "Wayne")
+
+det_blocks <- blocks(state = "MI", county = "Wayne", class = "sf")
+
+# plot layers
+ggplot() +
+  geom_sf(data = det_counties, color = "lightgrey") +
+  geom_sf(data = det_tract, color = "grey") +
+  geom_sf(data = det_metro, color = "black", alpha = 0.1)
+```
 
 
 
