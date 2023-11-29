@@ -48,7 +48,8 @@ detroit_data <- detroit_data %>%
 
 # convert disposition column from character to factor
 detroit_data <- detroit_data %>% 
-  mutate(disposition = factor(disposition))
+  mutate(disposition = factor(disposition),
+         victim_race = factor(victim_race))
 
 # group by race and count to determine top 3 most affected races
 count_race <- detroit_data %>% 
@@ -56,6 +57,10 @@ count_race <- detroit_data %>%
   count() %>% 
   arrange(desc(n))
 # the top three races are Black, white, and Hispanic
+# lump all races other than top three into "other", so there will only be 4 levels
+detroit_data <- detroit_data %>% 
+  mutate(victim_race = fct_lump(victim_race, 3))
+
 
 ```
 
