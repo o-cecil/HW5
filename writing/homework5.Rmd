@@ -23,7 +23,7 @@ library(sf)
 
 ## Reading in data, cleaning
 
-```{r homicide data }
+```{r homicide data}
 
 # read in csv file and add city, state column
 homicide_raw <- read_csv("../data/homicide-data.csv") %>% 
@@ -36,6 +36,14 @@ detroit_raw <- homicide_raw %>%
 # use st_to_sf function from sf package to turn homicide data into sf
 detroit_data <- st_as_sf(detroit_raw, coords = c("lon", "lat")) %>% 
   st_set_crs(4269)
+
+# simplify disposition col into solved and unsolved
+detroit_data <- detroit_data %>% 
+    mutate(disposition = case_when(
+    disposition == "Open/No arrest" ~ "unsolved",
+    disposition == "Closed without arrest" ~ "unsolved",
+    disposition == "Closed by arrest" ~ "solved"
+  ))
 
 ```
 
@@ -69,8 +77,8 @@ det_blocks <- blocks(state = "MI", county = "Wayne", class = "sf")
 ggplot() +
   geom_sf(data = det_tract, color = "grey") +
   geom_sf(data = det_metro, color = "black", alpha = 0.1) + # alpha transparency
-  geom_sf(data = roads, color = "red") +
-  geom_sf(data = detroit_data) +
+  geom_sf(data = roads, color = "black") +
+  geom_sf(data = detroit_data, color = "red4") +
   xlim(c(-83.3, -82.9)) +
   ylim(c(42.25, 42.45))
 
