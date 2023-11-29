@@ -16,6 +16,7 @@ library(readr)
 library(dplyr)
 library(ggplot2)
 library(scales)
+library(forcats)
 library(viridisLite)
 library(tigris)
 library(sf)
@@ -45,6 +46,10 @@ detroit_data <- detroit_data %>%
     disposition == "Closed by arrest" ~ "solved"
   ))
 
+# convert disposition column from character to factor
+detroit_data <- detroit_data %>% 
+  mutate(disposition = factor(disposition))
+
 ```
 
 
@@ -64,13 +69,15 @@ det_counties <- det_counties %>%
     COUNTYFP == "163" ~ "Wayne County"
   ))
 
+# Detroit metro area layer
 det_metro <- places(state = "MI") %>% 
   filter(NAME == "Detroit")
 
+# primary roads layer
 roads <- primary_roads()
 
+# smaller details to add to map - tracts and blocks, may not use both
 det_tract <- tracts(state = "MI", county = "Wayne")
-
 det_blocks <- blocks(state = "MI", county = "Wayne", class = "sf")
 
 # plot layers on example map to determine display
