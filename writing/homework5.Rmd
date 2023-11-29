@@ -50,6 +50,13 @@ detroit_data <- detroit_data %>%
 detroit_data <- detroit_data %>% 
   mutate(disposition = factor(disposition))
 
+# group by race and count to determine top 3 most affected races
+count_race <- detroit_data %>% 
+  group_by(victim_race) %>% 
+  count() %>% 
+  arrange(desc(n))
+# the top three races are Black, white, and Hispanic
+
 ```
 
 
