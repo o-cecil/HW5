@@ -2,11 +2,11 @@
 title: "Homework 5"
 author: "Olivia Cecil"
 date: "`r Sys.Date()`"
-output: word_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE,
+knitr::opts_chunk$set(echo = TRUE,
                       warnings = FALSE,
                       messages = FALSE,
                       error = FALSE)
