@@ -61,7 +61,6 @@ count_race <- detroit_data %>%
 detroit_data <- detroit_data %>% 
   mutate(victim_race = fct_lump(victim_race, 3))
 
-
 ```
 
 
@@ -97,7 +96,7 @@ ggplot() +
   geom_sf(data = det_tract, color = "grey") +
   geom_sf(data = det_metro, color = "black", alpha = 0.1) + # alpha transparency
   geom_sf(data = roads, color = "black") +
-  geom_sf(data = detroit_data, color = "red4", size = 0.1) +
+  geom_sf(data = detroit_data, aes(color = victim_race), size = 0.1 ) +
   xlim(c(-83.3, -82.9)) +
   ylim(c(42.25, 42.45)) +
   facet_wrap( ~ disposition, ncol = 1) # facet by solved/unsolved
